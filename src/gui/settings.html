@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>VoiceScribe - Настройки</title>
+    <style>
+        :root {
+            --primary: #2196f3;
+            --primary-dark: #1976d2;
+            --background: #ffffff;
+            --surface: #f8f9fa;
+            --text: #212121;
+            --text-secondary: #666666;
+            --error: #f44336;
+            --border: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: transparent;
+            color: var(--text);
+            margin: 0;
+            padding: 15px;
+            line-height: 1.6;
+            -webkit-app-region: drag;
+        }
+
+        .container {
+            background: var(--background);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            position: relative;
+        }
+
+        .window-controls {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            display: flex;
+            gap: 8px;
+            -webkit-app-region: no-drag;
+        }
+
+        .window-control-btn {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-secondary);
+            background: transparent;
+            transition: all 0.2s ease;
+        }
+
+        .window-control-btn:hover {
+            background: var(--surface);
+        }
+
+        h1 {
+            margin: 0 0 20px 0;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            -webkit-app-region: no-drag;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 4px;
+            color: var(--text);
+            font-weight: 500;
+            font-size: 12px;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 6px 8px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 12px;
+            color: var(--text);
+            background: var(--background);
+            transition: border-color 0.2s ease;
+            margin-bottom: 8px;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .hotkey-input {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hotkey-input select,
+        .hotkey-input input {
+            margin-bottom: 0;
+        }
+
+        .hotkey-input span {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        small {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            -webkit-app-region: no-drag;
+        }
+
+        #saveBtn {
+            background: var(--primary);
+            color: white;
+            flex: 1;
+        }
+
+        #saveBtn:hover {
+            background: var(--primary-dark);
+        }
+
+        #cancelBtn {
+            background: var(--surface);
+            color: var(--text);
+        }
+
+        #cancelBtn:hover {
+            background: var(--border);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="window-controls">
+            <button id="closeBtn" class="window-control-btn">✕</button>
+        </div>
+
+        <h1>Настройки VoiceScribe</h1>
+
+        <div class="form-group">
+            <label for="deviceSelect">Устройство записи:</label>
+            <select id="deviceSelect">
+                <option value="">Загрузка устройств...</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="provider">Провайдер распознавания:</label>
+            <select id="provider">
+                <option value="yandex">Yandex SpeechKit</option>
+                <option value="vk">VK Cloud</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="apiKey">API ключ:</label>
+            <input type="password" id="apiKey">
+            <small>API ключ будет сохранен локально</small>
+        </div>
+
+        <div class="form-group">
+            <label>Горячая клавиша записи</label>
+            <div class="hotkey-input">
+                <select id="hotkeyMod">
+                    <option value="LEFT ALT">Alt</option>
+                    <option value="LEFT CONTROL">Ctrl</option>
+                    <option value="LEFT SHIFT">Shift</option>
+                </select>
+                <span>+</span>
+                <input type="text" id="hotkeyKey" placeholder="Клавиша" maxlength="1">
+            </div>
+            <small>Нажмите на поле для ввода клавиши</small>
+        </div>
+
+        <div class="buttons">
+            <button id="cancelBtn">Отмена</button>
+            <button id="saveBtn">Сохранить</button>
+        </div>
+    </div>
+    <script src="settings.js"></script>
+</body>
+</html>

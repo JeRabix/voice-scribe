@@ -1,0 +1,68 @@
+{
+  "name": "voicescribe",
+  "version": "0.0.1",
+  "description": "Elegant voice-to-text transcription app",
+  "main": "dist/gui/main.js",
+  "author": {
+    "name": "Evgeniy Yurchenko <rabix346@yandex.ru>"
+  },
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "clean": "rimraf dist",
+    "build": "tsc",
+    "copy-static": "copyfiles -u 1 \"src/gui/*.{html,js}\" dist/",
+    "copy-assets": "copyfiles -u 1 \"assets/*\" dist/assets/",
+    "prebuild": "npm run clean && npm run copy-static && npm run copy-assets",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:gui": "npm run build && electron .",
+    "dev:gui": "npm run build && electron .",
+    "watch": "tsc -w",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "dependencies": {
+    "@crosscopy/clipboard": "^0.2.8",
+    "@types/axios": "^0.14.4",
+    "@types/dotenv": "^8.2.3",
+    "@types/node": "^22.13.11",
+    "axios": "^1.8.4",
+    "dotenv": "^16.4.7",
+    "microsoft-cognitiveservices-speech-sdk": "^1.43.0",
+    "node-global-key-listener": "^0.3.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
+  },
+  "devDependencies": {
+    "@electron/typescript-definitions": "^9.1.2",
+    "copyfiles": "^2.4.1",
+    "electron": "^35.0.3",
+    "electron-builder": "^24.13.3",
+    "nodemon": "^3.1.9",
+    "rimraf": "^6.0.1"
+  },
+  "build": {
+    "appId": "com.voicescribe.app",
+    "productName": "VoiceScribe",
+    "directories": {
+      "output": "build_new"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "assets/logo.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "files": [
+      "dist/**/*",
+      "assets/**/*",
+      "package.json"
+    ],
+    "publish": null
+  }
+}

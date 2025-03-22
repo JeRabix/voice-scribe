@@ -1,0 +1,25 @@
+# dependencies
+/node_modules
+
+# environment variables
+.env
+
+# temporary files
+/temp
+
+# logs
+*.log
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db 
+
+/build
+/build_new
+/dist

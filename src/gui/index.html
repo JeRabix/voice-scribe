@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>VoiceScribe</title>
+    <style>
+        :root {
+            --primary: #2196f3;
+            --primary-dark: #1976d2;
+            --background: #ffffff;
+            --surface: #f8f9fa;
+            --text: #212121;
+            --text-secondary: #666666;
+            --error: #f44336;
+            --border: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: transparent;
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            width: 500px;
+            height: 140px;
+            overflow: hidden;
+            -webkit-app-region: drag;
+        }
+
+        .container {
+            margin: 8px;
+            background: var(--background);
+            height: calc(100% - 16px);
+            display: flex;
+            flex-direction: column;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 12px;
+            height: 32px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 8px;
+            margin-left: auto;
+            -webkit-app-region: no-drag;
+        }
+
+        .window-control-btn {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-secondary);
+            background: transparent;
+            transition: all 0.2s ease;
+        }
+
+        .window-control-btn:hover {
+            background: var(--surface);
+        }
+
+        .window-control-btn.close:hover {
+            background: var(--error);
+            color: white;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        button {
+            border: none;
+            background: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            -webkit-app-region: no-drag;
+        }
+
+        .settings-btn {
+            display: flex;
+            align-items: center;
+            padding: 6px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            border-radius: 6px;
+            background: transparent;
+        }
+
+        .settings-btn:hover {
+            background: var(--surface);
+        }
+
+        .record-btn {
+            width: 48px;
+            height: 48px;
+            padding: 0;
+            background: var(--primary);
+            color: white;
+            font-size: 24px;
+            border-radius: 50%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .record-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        .record-btn.recording {
+            background: var(--error);
+            animation: pulse 2s infinite;
+        }
+
+        .record-btn svg {
+            width: 24px;
+            height: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .record-btn.recording svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .status {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .result {
+            display: none;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>VoiceScribe</h1>
+            <div class="window-controls">
+                <button id="settingsBtn" class="settings-btn">⚙️</button>
+                <button class="window-control-btn" id="minimizeBtn">─</button>
+                <button class="window-control-btn close" id="closeBtn">×</button>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <button id="recordButton" class="record-btn">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 14C13.66 14 15 12.66 15 11V5C15 3.34 13.66 2 12 2C10.34 2 9 3.34 9 5V11C9 12.66 10.34 14 12 14Z" fill="currentColor"/>
+                    <path d="M17.91 11C17.91 11 17.91 11 17.91 11C17.63 14.49 14.68 17 11.17 17C7.66 17 4.71 14.49 4.43 11C4.43 11 4.43 11 4.43 11H3C3.02 14.81 5.91 18 9.66 18.13V22H12.66V18.13C16.41 18 19.3 14.81 19.32 11H17.91Z" fill="currentColor"/>
+                </svg>
+            </button>
+            
+            <div id="status" class="status">Готов к записи</div>
+            
+            <div id="result" class="result"></div>
+        </div>
+    </div>
+    <script src="renderer.js"></script>
+</body>
+</html> 
