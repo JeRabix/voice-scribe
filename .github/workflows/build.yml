@@ -15,10 +15,10 @@ jobs:
           - os: windows-2022
             output_path: ./build/VoiceScribe-${{ needs.create-release.outputs.version }}.exe
             asset_name: VoiceScribe-${{ needs.create-release.outputs.version }}.exe
-          - os: ubuntu-22.04
+          - os: ubuntu-24.04
             output_path: ./build/VoiceScribe-${{ needs.create-release.outputs.version }}.AppImage
             asset_name: VoiceScribe-${{ needs.create-release.outputs.version }}.AppImage
-          - os: macos-13
+          - os: macos-14
             output_path: ./build/VoiceScribe-${{ needs.create-release.outputs.version }}.dmg
             asset_name: VoiceScribe-${{ needs.create-release.outputs.version }}.dmg
     
