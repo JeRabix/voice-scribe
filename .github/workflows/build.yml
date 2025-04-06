@@ -6,22 +6,21 @@ on:
   pull_request:
     branches: [ master ]
 
-permissions:
-  contents: write
-  packages: write
-
 jobs:
   build:
     strategy:
       matrix:
-        os: [windows-2022, ubuntu-latest]
+        os: [windows-2022, ubuntu-24.04, macos-14]
         include:
           - os: windows-2022
             output_path: ./build/VoiceScribe-${{ needs.create-release.outputs.version }}.exe
             asset_name: VoiceScribe-${{ needs.create-release.outputs.version }}.exe
-          - os: ubuntu-latest
+          - os: ubuntu-22.04
             output_path: ./build/VoiceScribe-${{ needs.create-release.outputs.version }}.AppImage
             asset_name: VoiceScribe-${{ needs.create-release.outputs.version }}.AppImage
+          - os: macos-13
+            output_path: ./build/VoiceScribe-${{ needs.create-release.outputs.version }}.dmg
+            asset_name: VoiceScribe-${{ needs.create-release.outputs.version }}.dmg
     
     runs-on: ${{ matrix.os }}
     needs: create-release
@@ -54,7 +53,7 @@ jobs:
         asset_content_type: application/octet-stream
 
   create-release:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     if: github.event_name == 'push'
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}

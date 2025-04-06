@@ -1,6 +1,6 @@
 {
   "name": "voicescribe",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Elegant voice-to-text transcription app",
   "main": "dist/gui/main.js",
   "author": {
@@ -55,6 +55,11 @@
       "target": ["AppImage"],
       "category": "Utility",
       "artifactName": "VoiceScribe-${version}.AppImage"
+    },
+    "mac": {
+      "target": ["dmg"],
+      "category": "public.app-category.productivity",
+      "artifactName": "VoiceScribe-${version}.dmg"
     },
     "nsis": {
       "oneClick": false,
