@@ -51,6 +51,11 @@
       "icon": "assets/logo.png",
       "artifactName": "VoiceScribe-${version}.exe"
     },
+    "linux": {
+      "target": ["AppImage"],
+      "category": "Utility",
+      "artifactName": "VoiceScribe-${version}.AppImage"
+    },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,

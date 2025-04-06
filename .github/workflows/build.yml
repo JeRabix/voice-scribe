@@ -8,7 +8,20 @@ on:
 
 jobs:
   build:
-    runs-on: windows-2022
+    strategy:
+      matrix:
+        os: [windows-2022, ubuntu-latest]
+        include:
+          - os: windows-2022
+            output_path: ./build/VoiceScribe-${{ needs.create-release.outputs.version }}.exe
+            asset_name: VoiceScribe-${{ needs.create-release.outputs.version }}.exe
+          - os: ubuntu-latest
+            output_path: ./build/VoiceScribe-${{ needs.create-release.outputs.version }}.AppImage
+            asset_name: VoiceScribe-${{ needs.create-release.outputs.version }}.AppImage
+    
+    runs-on: ${{ matrix.os }}
+    needs: create-release
+    if: always() && needs.create-release.result == 'success'
 
     steps:
     - uses: actions/checkout@v3
@@ -24,22 +37,6 @@ jobs:
     
     - name: Build application
       run: npm run build
-      
-    - name: Get package version
-      id: package-version
-      uses: martinbeentjes/npm-get-version-action@v1.3.1
-      
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      if: github.event_name == 'push'
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: v${{ steps.package-version.outputs.current-version }}
-        release_name: Release v${{ steps.package-version.outputs.current-version }}
-        draft: true
-        prerelease: false
         
     - name: Upload Release Asset
       if: github.event_name == 'push'
@@ -47,7 +44,38 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./build/VoiceScribe-${{ steps.package-version.outputs.current-version }}.exe
-        asset_name: VoiceScribe-${{ steps.package-version.outputs.current-version }}.exe
-        asset_content_type: application/octet-stream 
+        upload_url: ${{ needs.create-release.outputs.upload_url }}
+        asset_path: ${{ matrix.output_path }}
+        asset_name: ${{ matrix.asset_name }}
+        asset_content_type: application/octet-stream
+
+  create-release:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+      version: ${{ steps.get_version.outputs.version }}
+      
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '22.x'
+    
+    - name: Get package version
+      id: get_version
+      shell: bash
+      run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+      
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ steps.get_version.outputs.version }}
+        release_name: Release v${{ steps.get_version.outputs.version }}
+        draft: true
+        prerelease: false 
