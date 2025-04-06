@@ -9,16 +9,14 @@
   "scripts": {
     "start": "ts-node src/index.ts",
     "clean": "rimraf dist",
-    "build": "tsc",
+    "build": "tsc && electron-builder",
     "copy-static": "copyfiles -u 1 \"src/gui/*.{html,js}\" dist/",
     "copy-assets": "copyfiles -u 1 \"assets/*\" dist/assets/",
     "prebuild": "npm run clean && npm run copy-static && npm run copy-assets",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:gui": "npm run build && electron .",
     "dev:gui": "npm run build && electron .",
-    "watch": "tsc -w",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "watch": "tsc -w"
   },
   "dependencies": {
     "@crosscopy/clipboard": "^0.2.8",
@@ -44,13 +42,14 @@
     "appId": "com.voicescribe.app",
     "productName": "VoiceScribe",
     "directories": {
-      "output": "build_new"
+      "output": "build"
     },
     "win": {
       "target": [
         "nsis"
       ],
-      "icon": "assets/logo.png"
+      "icon": "assets/logo.png",
+      "artifactName": "VoiceScribe-${version}.exe"
     },
     "nsis": {
       "oneClick": false,
